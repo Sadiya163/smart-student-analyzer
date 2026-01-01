@@ -3,7 +3,7 @@ def Marks():
     n=int(input("enter no of subjects:"))
     for i in range(n):
         subject=input("enter subject name:")
-        score=int(input(f"enter score of that subject {subject}:"))
+        score=int(input(f"enter score for {subject}:"))
         marks[subject]=score
     return marks
 
@@ -74,3 +74,4 @@ generate_report(marks)
     
         
     
+
