@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}New Analysis - Smart Student Analyzer{% endblock %}
+{% block content %}
+<div class="container narrow">
+    <header class="page-header">
+        <div class="badge">NEW ANALYSIS</div>
+        <h1>Analyze Student Performance</h1>
+        <p class="muted">Enter subject-wise marks to generate a complete report.</p>
+    </header>
+
+    <section class="info-card">
+        {% if errors %}
+        <div class="errors">
+            {% for error in errors %}<div>• {{ error }}</div>{% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="POST" id="marksForm">
+            <label>Student Name</label>
+            <input type="text" name="student_name" value="{{ old_name or '' }}" placeholder="Enter student name" required>
+
+            <div class="section-heading">
+                <div>
+                    <h2>Subjects</h2>
+                    <p class="muted">Marks should be between 0 and 100.</p>
+                </div>
+                <button type="button" class="secondary-btn" id="addSubject">+ Add Subject</button>
+            </div>
+
+            <div id="subjects">
+                <div class="subject-row">
+                    <input type="text" name="subject[]" placeholder="Subject name" required>
+                    <input type="number" name="score[]" placeholder="Marks" min="0" max="100" step="0.01" required>
+                    <button type="button" class="remove-btn">×</button>
+                </div>
+                <div class="subject-row">
+                    <input type="text" name="subject[]" placeholder="Subject name" required>
+                    <input type="number" name="score[]" placeholder="Marks" min="0" max="100" step="0.01" required>
+                    <button type="button" class="remove-btn">×</button>
+                </div>
+            </div>
+
+            <button type="submit" class="primary-btn full">Analyze Performance →</button>
+        </form>
+    </section>
+</div>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+{% endblock %}

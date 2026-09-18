@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Register - Smart Student Analyzer{% endblock %}
+{% block content %}
+<div class="auth-page">
+    <div class="auth-card">
+        <div class="badge">GET STARTED</div>
+        <h1>Create Account</h1>
+        <p class="muted">Save and track your performance reports.</p>
+
+        <form method="POST">
+            <label>Name</label>
+            <input type="text" name="name" placeholder="Your name" required>
+
+            <label>Email</label>
+            <input type="email" name="email" placeholder="you@example.com" required>
+
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Minimum 6 characters" minlength="6" required>
+
+            <button class="primary-btn" type="submit">Create Account</button>
+        </form>
+
+        <p class="auth-footer">Already have an account?
+            <a href="{{ url_for('login') }}">Login</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

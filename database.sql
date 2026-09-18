@@ -1,0 +1,30 @@
+CREATE DATABASE IF NOT EXISTS student_analyzer;
+USE student_analyzer;
+
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS reports (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    student_name VARCHAR(100) NOT NULL,
+    average DECIMAL(5,2) NOT NULL,
+    grade VARCHAR(2) NOT NULL,
+    result VARCHAR(10) NOT NULL,
+    recommendation TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS subject_marks (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    report_id INT NOT NULL,
+    subject_name VARCHAR(100) NOT NULL,
+    score DECIMAL(5,2) NOT NULL,
+    FOREIGN KEY (report_id) REFERENCES reports(id) ON DELETE CASCADE
+);

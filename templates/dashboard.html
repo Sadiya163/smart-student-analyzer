@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Smart Student Analyzer{% endblock %}
+{% block content %}
+<div class="container">
+    <header class="dashboard-header">
+        <div>
+            <div class="badge">YOUR DASHBOARD</div>
+            <h1>Hello, {{ session.get('user_name') }} 👋</h1>
+            <p class="muted">Manage and review your previous performance reports.</p>
+        </div>
+        <a class="primary-btn small" href="{{ url_for('analyze') }}">+ New Analysis</a>
+    </header>
+
+    <section class="info-card">
+        <h2>Report History</h2>
+        {% if reports %}
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Average</th>
+                        <th>Grade</th>
+                        <th>Result</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in reports %}
+                    <tr>
+                        <td>{{ item.student_name }}</td>
+                        <td>{{ item.average }}%</td>
+                        <td><strong>{{ item.grade }}</strong></td>
+                        <td><span class="status {{ 'status-pass' if item.result == 'Pass' else 'status-fail' }}">{{ item.result }}</span></td>
+                        <td>{{ item.created_at.strftime('%d %b %Y, %I:%M %p') }}</td>
+                        <td class="actions">
+                            <a href="{{ url_for('report', report_id=item.id) }}">View</a>
+                            <form method="POST" action="{{ url_for('delete_report', report_id=item.id) }}">
+                                <button class="delete-link" onclick="return confirm('Delete this report?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+            <div class="empty-state">
+                <h3>No reports yet</h3>
+                <p>Create your first performance analysis.</p>
+                <a class="primary-btn small" href="{{ url_for('analyze') }}">Analyze Marks</a>
+            </div>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

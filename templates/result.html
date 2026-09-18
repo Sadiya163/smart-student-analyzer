@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Performance Report - Smart Student Analyzer{% endblock %}
+{% block content %}
+<div class="container">
+    <header class="dashboard-header">
+        <div>
+            <div class="badge">PERFORMANCE REPORT</div>
+            <h1>{{ student_name }}</h1>
+            <p class="muted">Here is the complete performance analysis.</p>
+        </div>
+        <a class="secondary-btn" href="{{ url_for('analyze') }}">+ New Analysis</a>
+    </header>
+
+    <section class="summary-grid">
+        <div class="stat-card"><span>Average</span><strong>{{ average }}%</strong></div>
+        <div class="stat-card"><span>Grade</span><strong>{{ grade }}</strong></div>
+        <div class="stat-card"><span>Result</span><strong class="{{ 'pass' if result == 'Pass' else 'fail' }}">{{ result }}</strong></div>
+        <div class="stat-card"><span>Subjects</span><strong>{{ marks|length }}</strong></div>
+    </section>
+
+    <section class="info-card">
+        <h2>Subject Performance</h2>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Subject</th><th>Marks</th><th>Performance</th></tr></thead>
+                <tbody>
+                {% for subject, score in marks.items() %}
+                    <tr>
+                        <td>{{ subject }}</td>
+                        <td><strong>{{ score }}</strong>/100</td>
+                        <td><div class="progress"><div class="progress-bar" style="width: {{ score }}%"></div></div></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <div class="two-col">
+        <section class="info-card">
+            <h2>Weak Subjects</h2>
+            {% if weak_subjects %}
+                <ul class="weak-list">
+                    {% for subject in weak_subjects %}<li>⚠ {{ subject }}</li>{% endfor %}
+                </ul>
+            {% else %}
+                <div class="success-box">✓ No weak subjects. Excellent!</div>
+            {% endif %}
+        </section>
+
+        <section class="info-card">
+            <h2>Recommendation</h2>
+            <p class="recommendation">{{ recommendation }}</p>
+        </section>
+    </div>
+
+    <a class="back-link" href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+</div>
+{% endblock %}
